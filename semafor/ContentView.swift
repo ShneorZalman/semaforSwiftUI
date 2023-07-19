@@ -7,15 +7,56 @@
 
 import SwiftUI
 
+enum StatusLight {
+   case red, yellow, green
+}
+
+private var statusLight = StatusLight.red
+
+
 struct ContentView: View {
+    
+    @State private var redAlpha: Double = 0.3
+    @State private var yellowAlpha: Double = 0.3
+    @State private var greenAlpha: Double = 0.3
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            RedLightView(alpha: redAlpha).padding(.top, 20)
+            YellowLightView(alpha: yellowAlpha)
+            GreenLightView(alpha: greenAlpha)
+            Spacer()
+            Button(action: {
+                changeLight()
+            } ) {
+                Text("Change trafic")
+                    .font(.title)
+            }
+            
         }
-        .padding()
+    }
+    
+    func changeLight() {
+        print(statusLight)
+        switch  statusLight {
+        case .red:
+            redAlpha = 1
+            yellowAlpha = 0.3
+            greenAlpha = 0.3
+            statusLight = .yellow
+            
+        case .yellow:
+            redAlpha = 0.3
+            yellowAlpha = 1
+            greenAlpha = 0.3
+            statusLight = .green
+        case .green:
+            redAlpha = 0.3
+            yellowAlpha = 0.3
+            greenAlpha = 1
+            statusLight = .red
+        }
+    
     }
 }
 
